@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Watchlist</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="./js/scripts.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <nav class="bg-blue-600 text-white">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+    <a href="index.html" class="text-xl font-bold hover:text-gray-200">🎬 AbuFlix</a>
+    <div class="space-x-4">
+      <a href="index.html" 
+         class="hover:text-gray-200"
+         :class="window.location.pathname.includes('index') ? 'font-bold underline' : ''">Home</a>
+      <a href="watchlist.html" 
+         class="hover:text-gray-200"
+         :class="window.location.pathname.includes('watchlist') ? 'font-bold underline' : ''">Watchlist</a>
+    </div>
+  </div>
+</nav>
+  <div class="max-w-6xl mx-auto p-6" x-data="watchlistComponent" x-init="init()">
+    <h1 class="text-3xl font-bold mb-6">My Watchlist</h1>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <template x-for="movie in watchlist" :key="movie.id">
+        <div class="bg-white rounded-lg shadow p-3 flex flex-col">
+          <img :src="movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/500x750'"
+               alt="" class="rounded-lg mb-2">
+          <h2 class="font-semibold text-lg truncate" x-text="movie.title"></h2>
+          <p class="text-sm text-gray-500" x-text="movie.release_date"></p>
+          <button @click="remove(movie.id)" class="mt-2 text-red-600 text-sm">Remove</button>
+        </div>
+      </template>
+    </div>
+  </div>
+</body>
+</html>

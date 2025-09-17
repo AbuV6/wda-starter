@@ -1,18 +1,33 @@
-// All of our API logic can go in here
-// We can interact with our API via this class
 export default class MovieHelper {
-
     constructor() {
-        // Define our API root URL, we can then add specific paths onto the end for different queries
         this.api_root = "https://api.themoviedb.org/3"
-        // Define our API key here
-        this.api_key = "YOUR_API_KEY"
+        this.api_key = "6d86a2175c01f3eb4825fb5fc418fc33"
     }
 
-    // Use the API endpoint documented on this page: https://developer.themoviedb.org/reference/discover-movie
-    static async getMovies() {
-        // Replace this with actual movie results from an API call using fetch()
-        return ['KPop Demon Hunters', 'I Know What You Did Last Summer', 'The Matrix']
+    async searchMovies(query, year = "") {
+        const url = new URL(`${this.api_root}/search/movie`)
+        url.searchParams.append("api_key", this.api_key)
+        url.searchParams.append("query", query)
+        if (year) url.searchParams.append("year", year)
+
+        const res = await fetch(url)
+        const data = await res.json()
+        return data.results || []
     }
 
+    async getMovieDetails(movie_id) {
+        const url = `${this.api_root}/movie/${movie_id}?api_key=${this.api_key}`
+        const res = await fetch(url)
+        return await res.json()
+    }
+
+    async discoverMovies(year = "") {
+        const url = new URL(`${this.api_root}/discover/movie`)
+        url.searchParams.append("api_key", this.api_key)
+        if (year) url.searchParams.append("primary_release_year", year)
+
+        const res = await fetch(url)
+        const data = await res.json()
+        return data.results || []
+    }
 }
