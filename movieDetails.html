@@ -30,6 +30,7 @@
           <div>
             <h1 class="text-3xl font-bold mb-2" x-text="movie.title"></h1>
             <p class="text-gray-500 mb-4" x-text="movie.release_date"></p>
+            <p class="text-gray-500 mb-4" x-text="'Runtime: ' + movie.runtime + ' minutes'"></p>
             <p class="mb-4" x-text="movie.overview"></p>
             <button @click="addToWatchlist(movie)" class="bg-green-600 text-white px-4 py-2 rounded">
               + Add to Watchlist

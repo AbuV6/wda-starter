@@ -16,16 +16,34 @@ function getUrlParam(param) {
 let movieListComponent = {
     movies: [],
     search: "",
-    filter_year: "",
+    search_year: "",
     error: null,
+
     async init() {
         const MH = await loadMovieHelper()
         this.movies = await MH.discoverMovies()
     },
-    async doSearch() {
+
+    // Search by movie name
+    async doSearchByName() {
         const MH = await loadMovieHelper()
-        this.movies = await MH.searchMovies(this.search, this.filter_year)
+        if (!this.search.trim()) {
+            alert("Please enter a movie name.")
+            return
+        }
+        this.movies = await MH.searchMovies(this.search)
     },
+
+    // Search by year only
+    async doSearchByYear() {
+        const MH = await loadMovieHelper()
+        if (!this.search_year.trim()) {
+            alert("Please enter a year.")
+            return
+        }
+        this.movies = await MH.discoverMovies(this.search_year)
+    },
+
     addToWatchlist(movie) {
         let list = JSON.parse(localStorage.getItem("watchlist") || "[]")
         if (!list.find(m => m.id === movie.id)) {
