@@ -16,15 +16,20 @@ function getUrlParam(param) {
 let movieListComponent = {
     movies: [],
     search: "",
-    search_year: "",
+    selectedYear: "",
+    years: [],
     error: null,
 
     async init() {
         const MH = await loadMovieHelper()
         this.movies = await MH.discoverMovies()
+
+        const currentYear = new Date().getFullYear()
+        for (let y = currentYear; y >= 1980; y--) {
+            this.years.push(y)
+        }
     },
 
-    // Search by movie name
     async doSearchByName() {
         const MH = await loadMovieHelper()
         if (!this.search.trim()) {
@@ -34,14 +39,13 @@ let movieListComponent = {
         this.movies = await MH.searchMovies(this.search)
     },
 
-    // Search by year only
     async doSearchByYear() {
         const MH = await loadMovieHelper()
-        if (!this.search_year.trim()) {
-            alert("Please enter a year.")
+        if (!this.selectedYear) {
+            alert("Please select a year.")
             return
         }
-        this.movies = await MH.discoverMovies(this.search_year)
+        this.movies = await MH.discoverMovies(this.selectedYear)
     },
 
     addToWatchlist(movie) {

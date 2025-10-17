@@ -3,12 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Movies</title>
+  <script>
+    tailwind.config = {
+      darkMode: 'media'
+    }
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="./js/scripts.js"></script>
 </head>
-<body class="bg-gray-100 text-gray-900">
-  <nav class="bg-blue-600 text-white">
+<body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+  <nav class="bg-blue-600 text-white dark:bg-blue-800">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <a href="index.html" class="text-xl font-bold hover:text-gray-200">🎬 AbuFlix</a>
       <div class="space-x-4">
@@ -27,35 +32,37 @@
 
     <div x-data="movieListComponent" x-init="init()" class="space-y-6">
 
-      <!-- Search by Movie Name -->
       <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
         <input type="text" placeholder="Search movies by name..." x-model="search"
-               class="flex-1 px-3 py-2 border rounded">
-        <button @click="doSearchByName()" class="bg-blue-600 text-white px-4 py-2 rounded">
+               class="flex-1 px-3 py-2 border rounded dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+        <button @click="doSearchByName()" class="bg-blue-600 text-white px-4 py-2 rounded dark:bg-blue-700">
           Search by Name
         </button>
       </div>
 
-      <!-- Search by Year -->
       <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
-        <input type="text" placeholder="Search movies by year..." x-model="search_year"
-               class="flex-1 px-3 py-2 border rounded" maxlength="4" pattern="\d*">
-        <button @click="doSearchByYear()" class="bg-blue-600 text-white px-4 py-2 rounded">
+        <select x-model="selectedYear" class="flex-1 px-3 py-2 border rounded dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+          <option value="">Select Year</option>
+          <template x-for="year in years" :key="year">
+            <option x-text="year" :value="year"></option>
+          </template>
+        </select>
+        <button @click="doSearchByYear()" class="bg-blue-600 text-white px-4 py-2 rounded dark:bg-blue-700">
           Search by Year
         </button>
       </div>
 
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <template x-for="movie in movies" :key="movie.id">
-          <div class="bg-white rounded-lg shadow p-3 flex flex-col">
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-3 flex flex-col">
             <img :src="movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/500x750'"
                  :alt="movie.title"
                  class="rounded-lg mb-2">
             <h2 class="font-semibold text-lg truncate" x-text="movie.title"></h2>
-            <p class="text-sm text-gray-500" x-text="movie.release_date"></p>
+            <p class="text-sm text-gray-500 dark:text-gray-400" x-text="movie.release_date"></p>
             <div class="mt-auto flex justify-between">
-              <a :href="`movieDetails.html?movie_id=${movie.id}`" class="text-blue-500 text-sm">Details</a>
-              <button @click="addToWatchlist(movie)" class="text-green-600 text-sm">+ Watchlist</button>
+              <a :href="`movieDetails.html?movie_id=${movie.id}`" class="text-blue-500 dark:text-blue-400 text-sm">Details</a>
+              <button @click="addToWatchlist(movie)" class="text-green-600 dark:text-green-400 text-sm">+ Watchlist</button>
             </div>
           </div>
         </template>
