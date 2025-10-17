@@ -18,6 +18,8 @@ let movieListComponent = {
     search: "",
     selectedYear: "",
     years: [],
+    genres: [],
+    selectedGenre: "",
     error: null,
 
     async init() {
@@ -28,6 +30,9 @@ let movieListComponent = {
         for (let y = currentYear; y >= 1980; y--) {
             this.years.push(y)
         }
+
+        // 🆕 Load genres
+        this.genres = await MH.getGenres()
     },
 
     async doSearchByName() {
@@ -46,6 +51,16 @@ let movieListComponent = {
             return
         }
         this.movies = await MH.discoverMovies(this.selectedYear)
+    },
+
+    // 🆕 Filter by Genre
+    async doSearchByGenre() {
+        const MH = await loadMovieHelper()
+        if (!this.selectedGenre) {
+            alert("Please select a genre.")
+            return
+        }
+        this.movies = await MH.discoverByGenre(this.selectedGenre)
     },
 
     addToWatchlist(movie) {

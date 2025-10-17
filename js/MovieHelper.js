@@ -30,4 +30,18 @@ export default class MovieHelper {
         const data = await res.json()
         return data.results || []
     }
+
+    async getGenres() {
+        const url = `${this.api_root}/genre/movie/list?api_key=${this.api_key}`
+        const res = await fetch(url)
+        const data = await res.json()
+        return data.genres || []
+    }
+
+    async discoverByGenre(genreId) {
+        const url = `${this.api_root}/discover/movie?api_key=${this.api_key}&with_genres=${genreId}`
+        const res = await fetch(url)
+        const data = await res.json()
+        return data.results || []
+    }
 }

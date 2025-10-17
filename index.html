@@ -32,6 +32,7 @@
 
     <div x-data="movieListComponent" x-init="init()" class="space-y-6">
 
+      <!-- Search by name -->
       <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
         <input type="text" placeholder="Search movies by name..." x-model="search"
                class="flex-1 px-3 py-2 border rounded dark:bg-gray-800 dark:border-gray-700 dark:text-white">
@@ -40,6 +41,7 @@
         </button>
       </div>
 
+      <!-- Filter by year -->
       <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
         <select x-model="selectedYear" class="flex-1 px-3 py-2 border rounded dark:bg-gray-800 dark:border-gray-700 dark:text-white">
           <option value="">Select Year</option>
@@ -49,6 +51,18 @@
         </select>
         <button @click="doSearchByYear()" class="bg-blue-600 text-white px-4 py-2 rounded dark:bg-blue-700">
           Search by Year
+        </button>
+      </div>
+
+      <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
+        <select x-model="selectedGenre" class="flex-1 px-3 py-2 border rounded dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+          <option value="">Select Genre</option>
+          <template x-for="genre in genres" :key="genre.id">
+            <option :value="genre.id" x-text="genre.name"></option>
+          </template>
+        </select>
+        <button @click="doSearchByGenre()" class="bg-blue-600 text-white px-4 py-2 rounded dark:bg-blue-700">
+          Search by Genre
         </button>
       </div>
 
