@@ -21,16 +21,16 @@ export default class MovieHelper {
         return await res.json()
     }
 
-    async discoverMovies(year = "") {
+    async discoverMovies(year = "", genreId = "") {
         const url = new URL(`${this.api_root}/discover/movie`)
         url.searchParams.append("api_key", this.api_key)
         if (year) url.searchParams.append("primary_release_year", year)
+        if (genreId) url.searchParams.append("with_genres", genreId)
 
-        const res = await fetch(url)
-        const data = await res.json()
-        return data.results || []
-    }
-
+    const res = await fetch(url)
+    const data = await res.json()
+    return data.results || []
+}
     async getGenres() {
         const url = `${this.api_root}/genre/movie/list?api_key=${this.api_key}`
         const res = await fetch(url)

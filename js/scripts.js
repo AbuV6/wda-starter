@@ -27,40 +27,36 @@ let movieListComponent = {
         this.movies = await MH.discoverMovies()
 
         const currentYear = new Date().getFullYear()
+        this.years = []
         for (let y = currentYear; y >= 1980; y--) {
             this.years.push(y)
         }
 
-        // 🆕 Load genres
         this.genres = await MH.getGenres()
+    },
+    async applyFilters() {
+        const MH = await loadMovieHelper()
+        const query = this.search.trim()
+        const year = this.selectedYear
+        const genre = this.selectedGenre
+        if (query) {
+            this.movies = await MH.searchMovies(query, year)
+        } 
+        else {
+            this.movies = await MH.discoverMovies(year, genre)
+        }
     },
 
     async doSearchByName() {
-        const MH = await loadMovieHelper()
-        if (!this.search.trim()) {
-            alert("Please enter a movie name.")
-            return
-        }
-        this.movies = await MH.searchMovies(this.search)
+        await this.applyFilters()
     },
 
     async doSearchByYear() {
-        const MH = await loadMovieHelper()
-        if (!this.selectedYear) {
-            alert("Please select a year.")
-            return
-        }
-        this.movies = await MH.discoverMovies(this.selectedYear)
+        await this.applyFilters()
     },
 
-    // 🆕 Filter by Genre
     async doSearchByGenre() {
-        const MH = await loadMovieHelper()
-        if (!this.selectedGenre) {
-            alert("Please select a genre.")
-            return
-        }
-        this.movies = await MH.discoverByGenre(this.selectedGenre)
+        await this.applyFilters()
     },
 
     addToWatchlist(movie) {
