@@ -10,30 +10,49 @@
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="./js/scripts.js"></script>
 </head>
-<body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100"
-      x-data="movieListComponent" x-init="init()">
+<body
+  class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100"
+  x-data="movieListComponent"
+  x-init="init()"
+>
   <nav class="bg-blue-600 text-white dark:bg-blue-800">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <a href="index.html" class="text-xl font-bold hover:text-gray-200">🎬 AbuFlix</a>
       <div class="space-x-4">
-        <a href="index.html"
-           class="hover:text-gray-200"
-           :class="window.location.pathname.includes('index') ? 'font-bold underline' : ''">Home</a>
-        <a href="watchList.html"
-           class="hover:text-gray-200"
-           :class="window.location.pathname.includes('watchlist') ? 'font-bold underline' : ''">Watchlist</a>
+        <a
+          href="index.html"
+          class="hover:text-gray-200"
+          :class="window.location.pathname.includes('index') ? 'font-bold underline' : ''"
+        >
+          Home
+        </a>
+        <a
+          href="watchList.html"
+          class="hover:text-gray-200"
+          :class="window.location.pathname.includes('watchlist') ? 'font-bold underline' : ''"
+        >
+          Watchlist
+        </a>
       </div>
     </div>
   </nav>
 
-  <div class="max-w-6xl mx-auto p-4 flex flex-col md:flex-row md:items-center md:space-x-4 space-y-3 md:space-y-0">
+  <div
+    class="max-w-6xl mx-auto p-4 flex flex-col md:flex-row md:items-center md:space-x-4 space-y-3 md:space-y-0"
+  >
     <input
-      x-model.debounce.500ms="search"
-      @input="applyFilters()"
+      x-model="search"
       type="text"
       placeholder="Search for a movie..."
       class="w-full md:w-64 px-3 py-2 border rounded dark:bg-gray-800 dark:border-gray-700 dark:text-white"
     />
+    <button
+      @click="doSearchByName()"
+      class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded"
+    >
+      Search
+    </button>
+
     <select
       x-model="selectedYear"
       @change="applyFilters()"
@@ -44,6 +63,7 @@
         <option :value="year" x-text="year"></option>
       </template>
     </select>
+
     <select
       x-model="selectedGenre"
       @change="applyFilters()"
@@ -54,6 +74,7 @@
         <option :value="genre.id" x-text="genre.name"></option>
       </template>
     </select>
+
     <button
       @click="search=''; selectedYear=''; selectedGenre=''; init()"
       class="bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white px-3 py-2 rounded"
@@ -61,20 +82,33 @@
       Clear Filters
     </button>
   </div>
+
   <div class="max-w-6xl mx-auto p-6">
     <h1 class="text-3xl font-bold mb-6">AbuFlix</h1>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <template x-for="movie in movies" :key="movie.id">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-3 flex flex-col">
-          <img :src="movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/500x750'"
-               :alt="movie.title"
-               class="rounded-lg mb-2">
+          <img
+            :src="movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/500x750'"
+            :alt="movie.title"
+            class="rounded-lg mb-2"
+          />
           <h2 class="font-semibold text-lg truncate" x-text="movie.title"></h2>
           <p class="text-sm text-gray-500 dark:text-gray-400" x-text="movie.release_date"></p>
           <div class="mt-auto flex justify-between">
-            <a :href="`movieDetails.html?movie_id=${movie.id}`" class="text-blue-500 dark:text-blue-400 text-sm">Details</a>
-            <button @click="addToWatchlist(movie)" class="text-green-600 dark:text-green-400 text-sm">+ Watchlist</button>
+            <a
+              :href="`movieDetails.html?movie_id=${movie.id}`"
+              class="text-blue-500 dark:text-blue-400 text-sm"
+            >
+              Details
+            </a>
+            <button
+              @click="addToWatchlist(movie)"
+              class="text-green-600 dark:text-green-400 text-sm"
+            >
+              + Watchlist
+            </button>
           </div>
         </div>
       </template>
