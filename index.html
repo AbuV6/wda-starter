@@ -37,9 +37,7 @@
     </div>
   </nav>
 
-  <div
-    class="max-w-6xl mx-auto p-4 flex flex-col md:flex-row md:items-center md:space-x-4 space-y-3 md:space-y-0"
-  >
+  <div class="max-w-6xl mx-auto p-4 flex flex-col md:flex-row md:items-center md:space-x-4 space-y-3 md:space-y-0">
     <input
       x-model="search"
       type="text"
@@ -75,8 +73,19 @@
       </template>
     </select>
 
+    <select
+      x-model="selectedRuntime"
+      @change="applyFilters()"
+      class="px-3 py-2 border rounded dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+    >
+      <option value="">All Runtimes</option>
+      <template x-for="range in runtimes" :key="range.id">
+        <option :value="range.id" x-text="range.label"></option>
+      </template>
+    </select>
+
     <button
-      @click="search=''; selectedYear=''; selectedGenre=''; init()"
+      @click="search=''; selectedYear=''; selectedGenre=''; selectedRuntime=''; init()"
       class="bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white px-3 py-2 rounded"
     >
       Clear Filters

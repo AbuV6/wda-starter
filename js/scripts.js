@@ -20,6 +20,8 @@ let movieListComponent = {
   years: [],
   genres: [],
   selectedGenre: "",
+  selectedRuntime: "",
+  runtimes: [],
   error: null,
 
   async init() {
@@ -32,6 +34,12 @@ let movieListComponent = {
     }
 
     this.genres = await MH.getGenres();
+    this.runtimes = [
+      { id: "0-60", label: "0–60 min" },
+      { id: "61-90", label: "61–90 min" },
+      { id: "91-120", label: "91–120 min" },
+      { id: "121+", label: "121+ min" }
+    ];
   },
 
   async doSearchByName() {
@@ -40,12 +48,43 @@ let movieListComponent = {
       await this.applyFilters();
       return;
     }
-    this.movies = await MH.searchMovies(this.search, this.selectedYear);
+
+    const url = new URL(`${MH.api_root}/search/movie`);
+    url.searchParams.append("api_key", MH.api_key);
+    url.searchParams.append("query", this.search);
+    if (this.selectedYear) url.searchParams.append("year", this.selectedYear);
+    if (this.selectedGenre) url.searchParams.append("with_genres", this.selectedGenre);
+
+    const parts = this.selectedRuntime.split("-");
+    if (parts[0]) url.searchParams.append("with_runtime.gte", parts[0]);
+    if (parts[1]) url.searchParams.append("with_runtime.lte", parts[1]);
+
+    const res = await fetch(url);
+    const data = await res.json();
+    this.movies = data.results || [];
   },
 
   async applyFilters() {
     const MH = await loadMovieHelper();
-    this.movies = await MH.discoverMovies(this.selectedYear, this.selectedGenre);
+    let runtimeGte = "";
+    let runtimeLte = "";
+
+    if (this.selectedRuntime) {
+      const parts = this.selectedRuntime.split("-");
+      runtimeGte = parts[0];
+      runtimeLte = parts[1] || "";
+    }
+
+    const url = new URL(`${MH.api_root}/discover/movie`);
+    url.searchParams.append("api_key", MH.api_key);
+    if (this.selectedYear) url.searchParams.append("primary_release_year", this.selectedYear);
+    if (this.selectedGenre) url.searchParams.append("with_genres", this.selectedGenre);
+    if (runtimeGte) url.searchParams.append("with_runtime.gte", runtimeGte);
+    if (runtimeLte) url.searchParams.append("with_runtime.lte", runtimeLte);
+
+    const res = await fetch(url);
+    const data = await res.json();
+    this.movies = data.results || [];
   },
 
   addToWatchlist(movie) {
