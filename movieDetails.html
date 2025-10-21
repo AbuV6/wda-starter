@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Movie Details</title>
 
   <!-- Tailwind Dark Mode Configuration -->
@@ -22,7 +23,7 @@
 
   <!-- Navigation Bar -->
   <nav class="bg-blue-600 text-white dark:bg-blue-800">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
       <a href="index.html" class="text-xl font-bold hover:text-gray-200">🎬 AbuFlix</a>
       <div class="space-x-4 flex items-center">
         <a
@@ -44,7 +45,7 @@
   </nav>
 
   <!-- Back Button -->
-  <div class="max-w-6xl mx-auto px-4 py-2 sticky top-4 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-2 sticky top-4 z-50">
     <button
       onclick="window.history.back()"
       class="bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-4 py-2 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition shadow"
@@ -54,7 +55,7 @@
   </div>
 
   <!-- Movie Details Section -->
-  <div class="max-w-4xl mx-auto p-6" x-data="movieComponent" x-init="init()">
+  <div class="max-w-7xl mx-auto px-4 py-6" x-data="movieComponent" x-init="init()">
 
     <!-- Movie Info -->
     <template x-if="movie">
@@ -67,11 +68,11 @@
           <img
             :src="movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/500x750'"
             alt=""
-            class="w-64 rounded-lg"
+            class="w-full md:w-64 rounded-lg mx-auto md:mx-0"
           />
 
           <!-- Movie Details -->
-          <div>
+          <div class="flex-1">
             <h1 class="text-3xl font-bold mb-2" x-text="movie.title"></h1>
             <p class="text-gray-500 dark:text-gray-400 mb-2" x-text="movie.release_date"></p>
             <p class="text-gray-500 dark:text-gray-400 mb-4" x-text="'Runtime: ' + movie.runtime + ' minutes'"></p>
@@ -80,7 +81,7 @@
             </p>
 
             <!-- Star Rating -->
-            <div class="flex items-center space-x-1 mb-4">
+            <div class="flex flex-wrap items-center space-x-1 mb-4">
               <template x-for="star in [1,2,3,4,5,6,7,8,9,10]" :key="star">
                 <svg
                   @click="rateMovie(star)"
@@ -113,7 +114,7 @@
     <!-- Main Cast Section -->
     <div x-show="cast.length > 0">
       <h2 class="text-2xl font-bold mb-4">Main Cast</h2>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4">
         <!-- Loop through first 10 cast members -->
         <template x-for="member in cast.slice(0, 10)" :key="member.id">
           <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow text-center">
