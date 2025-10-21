@@ -3,14 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <title>Watchlist</title>
+
+  <!-- Tailwind Dark Mode Configuration -->
   <script>
     tailwind.config = { darkMode: 'media' }
   </script>
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Alpine.js for interactivity -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Custom JS -->
   <script src="./js/scripts.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+
+  <!-- Navigation Bar -->
   <nav class="bg-blue-600 text-white dark:bg-blue-800">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <a href="index.html" class="text-xl font-bold hover:text-gray-200">🎬 AbuFlix</a>
@@ -21,6 +31,7 @@
     </div>
   </nav>
 
+  <!-- Back Button -->
   <div class="max-w-7xl mx-auto px--20 py-10 sticky top-3 z-50 flex">
     <button
       onclick="window.history.back()"
@@ -30,26 +41,41 @@
     </button>
   </div>
 
+  <!-- Watchlist Movies Grid -->
   <div class="max-w-6xl mx-auto p-6" x-data="watchlistComponent" x-init="init()">
+
+    <!-- Page Title -->
     <h1 class="text-3xl font-bold mb-6">My Watchlist</h1>
+
+    <!-- Movie Cards -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+      <!-- Loop through each movie in the watchlist -->
       <template x-for="movie in watchlist" :key="movie.id">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-3 flex flex-col">
+
+          <!-- Movie Poster -->
           <img
             :src="movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/500x750'"
             alt=""
             class="rounded-lg mb-2"
           />
+
+          <!-- Movie Title & Release Date -->
           <h2 class="font-semibold text-lg truncate" x-text="movie.title"></h2>
           <p class="text-sm text-gray-500 dark:text-gray-400 mb-2" x-text="movie.release_date"></p>
 
+          <!-- Actions: Details & Remove -->
           <div class="flex justify-between items-center mt-auto pt-2">
+            <!-- Link to Movie Details Page -->
             <a
               :href="`movieDetails.html?movie_id=${movie.id}`"
               class="text-blue-500 dark:text-blue-400 text-sm hover:underline"
             >
               Details
             </a>
+
+            <!-- Remove from Watchlist -->
             <button
               @click="remove(movie.id)"
               class="text-red-600 dark:text-red-400 text-sm hover:underline"
@@ -57,8 +83,10 @@
               Remove
             </button>
           </div>
+
         </div>
       </template>
+
     </div>
   </div>
 </body>

@@ -3,16 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <title>Movie Details</title>
+
+  <!-- Tailwind Dark Mode Configuration -->
   <script>
-    tailwind.config = {
-      darkMode: 'media'
-    }
+    tailwind.config = { darkMode: 'media' }
   </script>
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Alpine.js for interactivity -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Custom JS -->
   <script src="./js/scripts.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+
+  <!-- Navigation Bar -->
   <nav class="bg-blue-600 text-white dark:bg-blue-800">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <a href="index.html" class="text-xl font-bold hover:text-gray-200">🎬 AbuFlix</a>
@@ -35,6 +43,7 @@
     </div>
   </nav>
 
+  <!-- Back Button -->
   <div class="max-w-6xl mx-auto px-4 py-2 sticky top-4 z-50">
     <button
       onclick="window.history.back()"
@@ -44,15 +53,24 @@
     </button>
   </div>
 
+  <!-- Movie Details Section -->
   <div class="max-w-4xl mx-auto p-6" x-data="movieComponent" x-init="init()">
+
+    <!-- Movie Info -->
     <template x-if="movie">
       <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-6">
+
+        <!-- Poster + Info Layout -->
         <div class="flex flex-col md:flex-row gap-6">
+
+          <!-- Movie Poster -->
           <img
             :src="movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/500x750'"
             alt=""
             class="w-64 rounded-lg"
           />
+
+          <!-- Movie Details -->
           <div>
             <h1 class="text-3xl font-bold mb-2" x-text="movie.title"></h1>
             <p class="text-gray-500 dark:text-gray-400 mb-2" x-text="movie.release_date"></p>
@@ -61,6 +79,7 @@
               ⭐ Average Rating: <span x-text="movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'"></span> / 10
             </p>
 
+            <!-- Star Rating -->
             <div class="flex items-center space-x-1 mb-4">
               <template x-for="star in [1,2,3,4,5,6,7,8,9,10]" :key="star">
                 <svg
@@ -76,8 +95,10 @@
               </template>
             </div>
 
+            <!-- Movie Overview -->
             <p class="mb-4" x-text="movie.overview"></p>
 
+            <!-- Add to Watchlist Button -->
             <button
               @click="addToWatchlist(movie)"
               class="bg-green-600 dark:bg-green-700 text-white px-4 py-2 rounded hover:bg-green-700 transition"
@@ -89,11 +110,14 @@
       </div>
     </template>
 
+    <!-- Main Cast Section -->
     <div x-show="cast.length > 0">
       <h2 class="text-2xl font-bold mb-4">Main Cast</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <!-- Loop through first 10 cast members -->
         <template x-for="member in cast.slice(0, 10)" :key="member.id">
           <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow text-center">
+            <!-- Actor Image -->
             <img
               :src="member.profile_path ? `https://image.tmdb.org/t/p/w200${member.profile_path}` : 'https://via.placeholder.com/200x300?text=No+Image'"
               :alt="member.name"
@@ -105,6 +129,7 @@
         </template>
       </div>
     </div>
+
   </div>
 </body>
 </html>
