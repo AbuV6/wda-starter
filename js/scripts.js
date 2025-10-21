@@ -37,28 +37,15 @@ let movieListComponent = {
   async doSearchByName() {
     const MH = await loadMovieHelper();
     if (!this.search.trim()) {
-      this.movies = await MH.discoverMovies();
+      await this.applyFilters();
       return;
     }
-    this.movies = await MH.searchMovies(this.search);
+    this.movies = await MH.searchMovies(this.search, this.selectedYear);
   },
 
-  async doSearchByYear() {
+  async applyFilters() {
     const MH = await loadMovieHelper();
-    if (!this.selectedYear) {
-      this.movies = await MH.discoverMovies();
-      return;
-    }
-    this.movies = await MH.discoverMovies(this.selectedYear);
-  },
-
-  async doSearchByGenre() {
-    const MH = await loadMovieHelper();
-    if (!this.selectedGenre) {
-      this.movies = await MH.discoverMovies();
-      return;
-    }
-    this.movies = await MH.discoverByGenre(this.selectedGenre);
+    this.movies = await MH.discoverMovies(this.selectedYear, this.selectedGenre);
   },
 
   addToWatchlist(movie) {
