@@ -67,7 +67,7 @@
           <!-- Movie Poster -->
           <img
             :src="movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/500x750'"
-            alt=""
+            alt="Movie Poster for 'movie.title'"
             class="w-full md:w-64 rounded-lg mx-auto md:mx-0"
           />
 
@@ -82,7 +82,7 @@
 
             <!-- Star Rating -->
             <div class="flex flex-wrap items-center space-x-1 mb-4">
-              <template x-for="star in [1,2,3,4,5,6,7,8,9,10]" :key="star">
+              <template x-for="star in [1,2,3,4,5]" :key="star">
                 <svg
                   @click="rateMovie(star)"
                   :class="userRating >= star ? 'text-yellow-400' : 'text-gray-400'"
