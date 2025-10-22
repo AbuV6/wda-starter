@@ -132,7 +132,7 @@ let movieComponent = {
     const MH = await loadMovieHelper();
     const response = await MH.rateMovie(this.movie.id, value);
     if (response.success) {
-      alert(`You rated ${this.movie.title} ${value}/10 ⭐`);
+      alert(`You rated ${this.movie.title} ${value}/5 ⭐`);
     } else {
       alert("Failed to submit rating, try again later.");
     }
